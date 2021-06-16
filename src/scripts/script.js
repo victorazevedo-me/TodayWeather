@@ -3,6 +3,9 @@ const cl = (name) => document.getElementsByClassName(name)
 const clas = (that, val) => that.setAttribute('class', val)
 const has = (that, val) => (id(that) && id(that).getAttribute('class', val) ? true : false)
 
+
+!function(r,n){"object"==typeof exports&&"undefined"!=typeof module?module.exports=n():"function"==typeof define&&define.amd?define(n):r.invert=n()}(this,function(){"use strict";var t=Math.sqrt(1.05*.05)-.05,n=/^(?:[0-9a-f]{3}){1,2}$/i,i={black:"#000000",white:"#ffffff",threshold:t};function o(r){if("#"===r.slice(0,1)&&(r=r.slice(1)),!n.test(r))throw new Error('Invalid HEX color: "'+r+'"');return 3===r.length&&(r=r[0]+r[0]+r[1]+r[1]+r[2]+r[2]),[parseInt(r.slice(0,2),16),parseInt(r.slice(2,4),16),parseInt(r.slice(4,6),16)]}function f(r){if(!r)throw new Error("Invalid color value");return Array.isArray(r)?r:"string"==typeof r?o(r):[r.r,r.g,r.b]}function u(r,n,t){var e=!0===n?i:Object.assign({},i,n);return function(r){var n,t,e=[];for(n=0;n<r.length;n++)t=r[n]/255,e[n]=t<=.03928?t/12.92:Math.pow((t+.055)/1.055,2.4);return.2126*e[0]+.7152*e[1]+.0722*e[2]}(r)>e.threshold?t?o(e.black):e.black:t?o(e.white):e.white}function r(r,n){return void 0===n&&(n=!1),r=f(r),n?u(r,n):"#"+r.map(function(r){return n=(255-r).toString(16),void 0===t&&(t=2),(new Array(t).join("0")+n).slice(-t);var n,t}).join("")}return function(r){function n(r,n){r=f(r);var t,e=n?u(r,n,!0):r.map(function(r){return 255-r});return{r:(t=e)[0],g:t[1],b:t[2]}}r.asRGB=n,r.asRgbArray=function(r,n){return r=f(r),n?u(r,n,!0):r.map(function(r){return 255-r})},r.defaultThreshold=t,r.asRgbObject=n}(r||(r={})),r});
+
 let disposableData = {},
 	isPro = false,
 	langue = 'en',
@@ -1014,6 +1017,45 @@ function imgBackground(val) {
 		img.onload = () => {
 			id('background').style.backgroundImage = `url(${val})`
 			id('background_overlay').style.animation = 'fade .1s ease-in forwards'
+			
+
+			
+			const colorThief = new ColorThief();
+			const img = new Image();
+			let color;
+
+			img.addEventListener('load', function() {
+				color = colorThief.getColor(img);
+				document.body.style.color = 'rgb(' + color[0] + ',' + color[1] + ',' + color[2] + ')';
+
+				
+			});
+
+			img.crossOrigin = 'Anonymous';
+			img.src = val;
+
+			// const colorThief = new ColorThief();
+
+			// let img = document.createElement('img');
+			// 	img.src = val;
+			
+			// img.crossOrigin = "Anonymous";
+			// console.log(img);
+			// console.log(colorThief.getColor(val));
+
+			// // Make sure image is finished loading
+			// // if (img.complete) {
+			// // 	console.log(colorThief.getColor(val));
+			// // } else {
+			// // img.addEventListener('load', function() {
+				
+			// // });
+			// // }
+
+			
+			
+
+			// console.log(invert('#fff') );
 		}
 
 		img.src = val
@@ -2023,5 +2065,10 @@ window.onload = function () {
 			dominterface.style.minHeight = '90vh'
 			dominterface.style.padding = '0 0 10vh 0'
 		}
+
 	})
 }
+
+
+
+
